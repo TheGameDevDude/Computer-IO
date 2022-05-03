@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSSGame</title>
+    <style>
+        #canvas {
+            border: 1px solid black;
+            display: block;
+            margin: 0 auto; 
+            background: rgb(7, 163, 190);
+        }
+        body {
+            background: grey;
+        }
+    </style>
+</head>
+<body>
+    <img id="spritesheet" src="./res/spritesheet.png" hidden="true" />
+    <img id="reload" src="./res/reload.png" hidden="true" />
+    <img id="play" src="./res/play.png" hidden="true" />
+    <img id="controls" src="./res/wasd.png" hidden="true" />
+    <img id="gift" src="./res/gift.png" hidden="true" />
+    <img id="title" src="./res/title.png" hidden="true" />
+    <img id="backtomenu" src="./res/backtomenu.png" hidden="true" />
+    <img id="pause" src="./res/pause.png" hidden="true" />
+
+    <audio id="click" src="./res/click.wav" type="audio/WAV"></audio>
+    <audio id="powerUp" src="./res/powerUp.wav" type="audio/WAV"></audio>
+    <audio id="explosion" src="./res/explosion.wav" type="audio/WAV"></audio>
+
+    <canvas id="canvas" tabindex=0 width="1080" height="720"></canvas>
+    <script src="./js/vector.js"></script>
+    <script src="./js/computer.js"></script>
+    <script src="./js/virus.js"></script>
+    <script src="./js/Spawner.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
