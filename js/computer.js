@@ -25,31 +25,31 @@ class Computer {
 
     control() {
         this.canvas.addEventListener('keydown', event => {
-            if(event.key === 'a' || event.key === 'ArrowLeft') {
+            if(event.key === 'a' || event.key === 'ArrowLeft'  || event.key === 'A') {
                 this.LEFT = true;
             }
-            if(event.key === 'd' || event.key === 'ArrowRight') {
+            if(event.key === 'd' || event.key === 'ArrowRight' || event.key === 'D') {
                 this.RIGHT = true;
             }
-            if(event.key === 'w' || event.key === 'ArrowUp') {
+            if(event.key === 'w' || event.key === 'ArrowUp' || event.key === 'W') {
                 this.UP = true;
             }
-            if(event.key === 's' || event.key === 'ArrowDown') {
+            if(event.key === 's' || event.key === 'ArrowDown' || event.key === 'S') {
                 this.DOWN = true;
             }
         });
 
         this.canvas.addEventListener('keyup', event => {
-            if(event.key === 'a' || event.key === 'ArrowLeft') {
+            if(event.key === 'a' || event.key === 'ArrowLeft'  || event.key === 'A') {
                 this.LEFT = false;
             }
-            if(event.key === 'd' || event.key === 'ArrowRight') {
+            if(event.key === 'd' || event.key === 'ArrowRight' || event.key === 'D') {
                 this.RIGHT = false;
             }
-            if(event.key === 'w' || event.key === 'ArrowUp') {
+            if(event.key === 'w' || event.key === 'ArrowUp' || event.key === 'W') {
                 this.UP = false;
             }
-            if(event.key === 's' || event.key === 'ArrowDown') {
+            if(event.key === 's' || event.key === 'ArrowDown' || event.key === 'S') {
                 this.DOWN = false;
             }
         });
@@ -80,6 +80,11 @@ class Computer {
             this.vel = this.vel.add(new Vector(this.acc.x * deltaTime, this.acc.y * deltaTime));
             this.vel = this.vel.scale(1 - this.friction * deltaTime);
             this.position = this.position.add(new Vector(this.vel.x * deltaTime, this.vel.y * deltaTime));
+
+            if(this.position.x >= this.canvas.clientWidth + 100 || this.position.x <= -100 || this.position.y >= this.canvas.clientHeight + 100 || this.position.y <= -100) {
+                gameOver = true;
+            }
+
         } else {
             this.animationTimer += deltaTime / 70;
         }
