@@ -8,6 +8,8 @@ class Spawner {
         this.SPAWNINGPOINTS.push(new Vector(0, canvas.clientHeight));
         this.timer = 0;
         this.threshold = 100;
+        this.upperlimitAcceleration = -0.08;
+        this.firstHacker = true;
     }
 
     tick(deltaTime) {
@@ -17,7 +19,10 @@ class Spawner {
                 this.timer = 0;
                 this.threshold -= 10;
                 if(this.threshold <= 30) this.threshold = 30;
-                HACKERS.push(new Virus(this.SPAWNINGPOINTS[Math.floor(Math.random() * 3)], 2, computer, spritesheet, ctx));   
+                this.upperlimitAcceleration += 0.1;
+                if(this.upperlimitAcceleration >= 1.5) this.upperlimitAcceleration = 1.5;
+                HACKERS.push(new Virus(this.SPAWNINGPOINTS[Math.floor(Math.random() * 3)], 2, computer, spritesheet, ctx, this.upperlimitAcceleration, this.firstHacker));
+                this.firstHacker = false;   
             }
         }
     }

@@ -1,9 +1,9 @@
 class Virus {
-    constructor(position, size, computer, spritesheet, ctx) {
+    constructor(position, size, computer, spritesheet, ctx, upperlimitAcceleration, firstHacker) {
         this.position = position;
         this.vel = new Vector(0, 0);
-        this.acceleration = Math.random() * (1.5 - 0.7) + 0.7;
-        this.friction = Math.random() * (0.1 - 0.05) + 0.05;
+        this.acceleration = Math.random() * (upperlimitAcceleration - 0.7) + 0.7;
+        this.friction = Math.random() * (0.15 - 0.03) + 0.03;
         this.size = size;
         this.computer = computer;
         this.spritesheet = spritesheet;
@@ -20,7 +20,8 @@ class Virus {
         this.SPRITEPOS.push(new Vector(0, 64)); // infected folder
         this.SPRITEPOS.push(new Vector(32, 64)); // warning
         this.SPRITEPOS.push(new Vector(96, 64)); // uninstall 
-        this.coords = this.SPRITEPOS[Math.floor(Math.random() * (this.SPRITEPOS.length - 1))];
+        if(firstHacker === true) this.coords = this.SPRITEPOS[0];
+        else this.coords = this.SPRITEPOS[Math.floor(Math.random() * (this.SPRITEPOS.length - 1))];
         computer.highScore += 10;
         powerUpSound.play();
     }
@@ -28,6 +29,7 @@ class Virus {
     tick(deltaTime) {
         if(gameOver === false) {
             // follow player
+            if(this.acceleration < 0) this.acceleration = -this.acceleration;
             let direction = computer.position.subtr(this.position).unit().scale(this.acceleration);
             this.vel = this.vel.add(new Vector(direction.x * deltaTime, direction.y * deltaTime));
             this.vel = this.vel.scale(1 - this.friction * deltaTime);

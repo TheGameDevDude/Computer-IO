@@ -54,28 +54,69 @@ class Computer {
             }
         });
 
-        if(this.LEFT) {
-            this.acc.x = -this.acceleration;
-        }
-        if(this.RIGHT) {
-            this.acc.x = this.acceleration;
-        }
-        if(this.UP) {
-            this.acc.y = -this.acceleration;
-        }
-        if(this.DOWN) {
-            this.acc.y = this.acceleration;
-        }
-        if(!this.UP && !this.DOWN) {
-            this.acc.y = 0;
-        }
-        if(!this.RIGHT && !this.LEFT) {
-            this.acc.x = 0;
-        }
+        this.canvas.addEventListener('mousedown', event => {
+            if(gameOver === false) {
+                let rect = this.canvas.getBoundingClientRect();
+                let x = event.clientX - rect.left;
+                let y = event.clientY - rect.top;
+                if(x >= (this.canvas.clientWidth - 50) && x <= this.canvas.clientWidth && y >= 0 && y <= 50) {
+                    clickSound.play();
+                    restart = true;
+                    menu = true;
+                }
+
+                if(x >= (this.canvas.clientWidth - 64 - 14) && x <= (this.canvas.clientWidth - 64 - 14 + 32) && y >= 0 && y <= 50 && pauseGame === false) {
+                    clickSound.play();
+                    pauseGame = true;
+                }
+
+                if(pauseGame === true && x >= (this.canvas.clientWidth / 2 - 100) && x <= (this.canvas.clientWidth / 2 - 100 + 200) && y >= (this.canvas.clientHeight / 2 - 100) && y <= (this.canvas.clientHeight / 2 - 100 + 200)) {
+                    clickSound.play();
+                    pauseGame = false;
+                }
+            }
+        });
+
+        this.canvas.addEventListener('mousedown', event => {
+            if(gameOver === true) {
+                let rect = this.canvas.getBoundingClientRect();
+                let x = event.clientX - rect.left;
+                let y = event.clientY - rect.top;
+                if(x >= (this.canvas.clientWidth - 50) && x <= this.canvas.clientWidth && y >= 0 && y <= 50) {
+                    clickSound.play();
+                    restart = true;
+                }
+
+                if(x >= (this.canvas.clientWidth - 64 - 14) && x <= (this.canvas.clientWidth - 64 - 14 + 32) && y >= 0 && y <= 50) {
+                    clickSound.play();
+                    restart = true;
+                    menu = true;
+                }
+            }
+        });
     }
 
     tick(deltaTime) {
         if(gameOver === false) {
+            if(this.LEFT) {
+                this.acc.x = -this.acceleration;
+            }
+            if(this.RIGHT) {
+                this.acc.x = this.acceleration;
+            }
+            if(this.UP) {
+                this.acc.y = -this.acceleration;
+            }
+            if(this.DOWN) {
+                this.acc.y = this.acceleration;
+            }
+            if(!this.UP && !this.DOWN) {
+                this.acc.y = 0;
+            }
+            if(!this.RIGHT && !this.LEFT) {
+                this.acc.x = 0;
+            }
+
             this.acc = this.acc.unit().scale(this.acceleration);
             this.vel = this.vel.add(new Vector(this.acc.x * deltaTime, this.acc.y * deltaTime));
             this.vel = this.vel.scale(1 - this.friction * deltaTime);
@@ -99,7 +140,9 @@ class Computer {
             this.position.x - offset / 2, this.position.y - offset / 2,
             offset, offset
         );
-        
+    }
+
+    renderGamePause() {
         if(gameOver === false) {
             this.ctx.drawImage(
                 this.backtomenu,
@@ -120,31 +163,11 @@ class Computer {
                     32, 32
                 );
             }
-
-            this.canvas.addEventListener('mousedown', event => {
-                if(gameOver === false) {
-                    let rect = this.canvas.getBoundingClientRect();
-                    let x = event.clientX - rect.left;
-                    let y = event.clientY - rect.top;
-                    if(x >= (this.canvas.clientWidth - 50) && x <= this.canvas.clientWidth && y >= 0 && y <= 50) {
-                        clickSound.play();
-                        restart = true;
-                        menu = true;
-                    }
-
-                    if(x >= (this.canvas.clientWidth - 64 - 14) && x <= (this.canvas.clientWidth - 64 - 14 + 32) && y >= 0 && y <= 50 && pauseGame === false) {
-                        clickSound.play();
-                        pauseGame = true;
-                    }
-
-                    if(pauseGame === true && x >= (this.canvas.clientWidth / 2 - 100) && x <= (this.canvas.clientWidth / 2 - 100 + 200) && y >= (this.canvas.clientHeight / 2 - 100) && y <= (this.canvas.clientHeight / 2 - 100 + 200)) {
-                        clickSound.play();
-                        pauseGame = false;
-                    }
-                }
-            });
         }
+    }
 
+    renderGameOver() {
+        let offset = 32 * this.size;
         if(gameOver === true && this.animationTimer > 2) {
             if(this.explode === false) {
                 explosionSound.play();
@@ -174,23 +197,7 @@ class Computer {
                 32, 32
             );
                 
-            this.canvas.addEventListener('mousedown', event => {
-                if(gameOver === true) {
-                    let rect = this.canvas.getBoundingClientRect();
-                    let x = event.clientX - rect.left;
-                    let y = event.clientY - rect.top;
-                    if(x >= (this.canvas.clientWidth - 50) && x <= this.canvas.clientWidth && y >= 0 && y <= 50) {
-                        clickSound.play();
-                        restart = true;
-                    }
 
-                    if(x >= (this.canvas.clientWidth - 64 - 14) && x <= (this.canvas.clientWidth - 64 - 14 + 32) && y >= 0 && y <= 50) {
-                        clickSound.play();
-                        restart = true;
-                        menu = true;
-                    }
-                }
-            });
         }
     }
 }

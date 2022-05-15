@@ -34,10 +34,14 @@ function restartGame() {
         HACKERS = [];
         spawner.timer = 0;
         spawner.threshold = 100;
+        spawner.upperlimitAcceleration = -0.08;
+        spawner.firstHacker = true;
         restart = false;
         pauseGame = false;
     }
 }
+
+computer.control();
 
 function mainLoop() {
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
@@ -48,7 +52,6 @@ function mainLoop() {
 
     if(menu === false) {
         // tick
-        computer.control();
         computer.tick(deltaTime);
         spawner.tick(deltaTime);
         if(gameOver === false)
@@ -58,7 +61,9 @@ function mainLoop() {
         // render
         computer.render();
         HACKERS.forEach(hackers => hackers.render());
-    
+        computer.renderGamePause();
+        computer.renderGameOver();
+        
         // restart only if restart is true
         restartGame();
 
