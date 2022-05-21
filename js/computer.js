@@ -55,10 +55,11 @@ class Computer {
         });
 
         this.canvas.addEventListener('mousedown', event => {
+            let rect = this.canvas.getBoundingClientRect();
+            let x = event.clientX - rect.left;
+            let y = event.clientY - rect.top;
+
             if(gameOver === false) {
-                let rect = this.canvas.getBoundingClientRect();
-                let x = event.clientX - rect.left;
-                let y = event.clientY - rect.top;
                 if(x >= (this.canvas.clientWidth - 50) && x <= this.canvas.clientWidth && y >= 0 && y <= 50) {
                     clickSound.play();
                     restart = true;
@@ -74,14 +75,7 @@ class Computer {
                     clickSound.play();
                     pauseGame = false;
                 }
-            }
-        });
-
-        this.canvas.addEventListener('mousedown', event => {
-            if(gameOver === true) {
-                let rect = this.canvas.getBoundingClientRect();
-                let x = event.clientX - rect.left;
-                let y = event.clientY - rect.top;
+            } else {
                 if(x >= (this.canvas.clientWidth - 50) && x <= this.canvas.clientWidth && y >= 0 && y <= 50) {
                     clickSound.play();
                     restart = true;
